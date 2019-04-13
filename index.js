@@ -16,9 +16,47 @@ function _createShape(name, attrs, xmlns = 'http://www.w3.org/2000/svg') {
     return shape;
 }
 
-class PolarCoordinateSystem {
+function hex2rgb(hex) {
+    return hex.replace(/#/, '').match(/\w\w/g).map(code => parseInt(code, 16));
+}
+
+class CoordinateSystem {
+    constructor() {
+        this.svg = document.getElementById('svg');
+        const { clientWidth, clientHeight } = this.svg;
+        this.svgDomain = [0, clientWidth];
+        this.svgRange = [clientHeight, 0];
+        // These will be the same
+        // this.svgUnitsPerXUnit = clientWidth / this.domainSize();
+        // this.svgUnitsPerYUnit = clientHeight / this.domainSize();
+        // this.xUnitsPerPixel = this.domainSize() / clientWidth;
+        this.svg.setAttribute('viewBox', `0 0 ${clientWidth} ${clientHeight}`);
+        this.xmlns = 'http://www.w3.org/2000/svg';
+    }
+}
+
+class PolarCoordinateSystem extends CoordinateSystem {
     constructor(rMax) {
-        this.cartesian = new CartesianCoordinateSystem(-rMax, rMax, -rMax, rMax);
+        super()
+        this.clientAspectRatio = this.svg.clientWidth / this.svg.clientHeight;
+        const { clientWidth, clientHeight } = this.svg;
+        let xMin = -rMax;
+        let xMax = rMax;
+        let yMin = -rMax;
+        let yMax = rMax;
+        if (this.clientAspectRatio > 1) {
+            xMin = -rMax * this.clientAspectRatio;
+            xMax = rMax * this.clientAspectRatio;
+            yMin = -rMax;
+            yMax = rMax;
+        } else if (this.clientAspectRatio < 1) {
+            xMin = -rMax;
+            xMax = rMax;
+            yMin = -rMax * this.clientAspectRatio;
+            yMax = rMax * this.clientAspectRatio;
+        }
+
+        this.cartesian = new CartesianCoordinateSystem(xMin, xMax, yMin, yMax);
     }
 
     transform(r, theta, options) {
@@ -33,24 +71,15 @@ class PolarCoordinateSystem {
     }
 }
 
-class CartesianCoordinateSystem {
+class CartesianCoordinateSystem extends CoordinateSystem {
     constructor(xMin, xMax, yMin, yMax) {
+        super();
         this.xMin = xMin;
         this.xMax = xMax;
         this.yMin = yMin;
         this.yMax = yMax;
         this.domain = [xMin, xMax];
         this.range = [yMin, yMax];
-        this.svg = document.getElementById('svg');
-        const { clientWidth, clientHeight } = this.svg;
-        this.svgDomain = [0, clientWidth];
-        this.svgRange = [clientHeight, 0];
-        // These will be the same
-        this.svgUnitsPerXUnit = clientWidth / this.domainSize();
-        this.svgUnitsPerYUnit = clientHeight / this.domainSize();
-        this.xUnitsPerPixel = this.domainSize() / clientWidth;
-        this.svg.setAttribute('viewBox', `0 0 ${clientWidth} ${clientHeight}`);
-        this.xmlns = 'http://www.w3.org/2000/svg';
 
         /*
         this.visibleAspectRatio = this.svg.clientWidth / this.svg.clientHeight;
@@ -148,12 +177,15 @@ for (let x = -10; x <= 10; x += 3*cartesianUnitsPerPixel) {
 }
 */
 
-const polar = new PolarCoordinateSystem(1);
+const polar = new PolarCoordinateSystem(1.1);
 
 // const startColor = [255, 0, 0];
 // const endColor = [0, 113, 18];
-const startColor = [0, 0, 0];
-const endColor = [255, 255, 255];
+// const startColor = [0, 0, 0];
+// const endColor = [255, 255, 255];
+const startColor = hex2rgb('#120E12');
+const endColor = hex2rgb('#F3121A');
+console.log(startColor, endColor);
 
 for (let theta = 0; theta < 80*Math.PI; theta += Math.PI/180) {
     // polar.plot(Math.sin(theta), theta);
@@ -165,7 +197,7 @@ for (let theta = 0; theta < 80*Math.PI; theta += Math.PI/180) {
         const g = _transform(theta, [0, 80*Math.PI], [startColor[1], endColor[1]]);
         const b = _transform(theta, [0, 80*Math.PI], [startColor[2], endColor[2]]);
         polar.plot(Math.sin(Math.cos(0.1 * theta) * theta), theta, {
-            pointSize: 5,
+            pointSize: 1,
             fill: `rgb(${r}, ${g}, ${b})`,
         });
     }, theta * 100);
