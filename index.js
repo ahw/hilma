@@ -12,7 +12,7 @@ function _createShape(name, attrs, xmlns = 'http://www.w3.org/2000/svg') {
     Object.keys(attrs).forEach(attr => {
         shape.setAttribute(attr, attrs[attr]);
     })
-    
+
     return shape;
 }
 
@@ -20,7 +20,7 @@ class PolarCoordinateSystem {
     constructor(rMax) {
         this.cartesian = new CartesianCoordinateSystem(-rMax, rMax, -rMax, rMax);
     }
-    
+
     transform(r, theta, options) {
         const x = r * Math.cos(theta);
         const y = r * Math.sin(theta);
@@ -51,7 +51,7 @@ class CartesianCoordinateSystem {
         this.xUnitsPerPixel = this.domainSize() / clientWidth;
         this.svg.setAttribute('viewBox', `0 0 ${clientWidth} ${clientHeight}`);
         this.xmlns = 'http://www.w3.org/2000/svg';
-        
+
         /*
         this.visibleAspectRatio = this.svg.clientWidth / this.svg.clientHeight;
         if (this.visibleAspectRatio > 1) {
@@ -74,7 +74,7 @@ class CartesianCoordinateSystem {
         }
         */
     }
-    
+
     xAxis(y) {
         const start = this.transform(this.xMin, y);
         const end = this.transform(this.xMax, y);
@@ -102,22 +102,22 @@ class CartesianCoordinateSystem {
         });
         this.svg.appendChild(line);
     }
-    
+
     rangeSize() {
         return this.yMax - this.yMin;
     }
-    
+
     domainSize() {
         return this.xMax - this.xMin;
     }
-    
+
     transform(x, y) {
         return [
             _transform(x, this.domain, this.svgDomain),
             _transform(y, this.range, this.svgRange)
         ];
     }
-    
+
     plot(x, y, options = { pointSize: 1, fill: 'red' }) {
         const [svgX, svgY] = this.transform(x, y);
         const circle = _createShape('circle', { cx: svgX, cy: svgY, r: options.pointSize, fill: options.fill, opacity: 0.7 });
