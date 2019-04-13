@@ -197,7 +197,7 @@ for (let theta = 0; theta < 80*Math.PI; theta += Math.PI/180) {
         const g = _transform(theta, [0, 80*Math.PI], [startColor[1], endColor[1]]);
         const b = _transform(theta, [0, 80*Math.PI], [startColor[2], endColor[2]]);
         polar.plot(Math.sin(Math.cos(0.1 * theta) * theta), theta, {
-            pointSize: 1,
+            pointSize: 2,
             fill: `rgb(${r}, ${g}, ${b})`,
         });
     }, theta * 100);
