@@ -52,8 +52,8 @@ class PolarCoordinateSystem extends CoordinateSystem {
         } else if (this.clientAspectRatio < 1) {
             xMin = -rMax;
             xMax = rMax;
-            yMin = -rMax * this.clientAspectRatio;
-            yMax = rMax * this.clientAspectRatio;
+            yMin = -rMax / this.clientAspectRatio;
+            yMax = rMax / this.clientAspectRatio;
         }
 
         this.cartesian = new CartesianCoordinateSystem(xMin, xMax, yMin, yMax);
