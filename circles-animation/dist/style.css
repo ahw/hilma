@@ -54,12 +54,12 @@ body {
 
 #animation-container {
     position: relative;
-    width: min(50vw, 50vh);
-    height: min(50vw, 50vh);
+    width: min(80vw, 80vh);
+    height: min(80vw, 80vh);
     border: 1px solid #120E12;
     border: 1px solid #222;
     border: none;
-    margin: calc((100vh - min(50vw, 50vh))/2) auto;
+    margin: calc((100vh - min(80vw, 80vh))/2) auto;
     
 }
 
