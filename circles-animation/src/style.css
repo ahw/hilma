@@ -1,0 +1,86 @@
+:root {
+    --rotation: 25deg;
+    --end-color: yellow;
+    --start-color: white;
+}
+
+.circle {
+}
+
+@keyframes squish {
+    25% {
+        border-color: var(--end-color);
+    }
+    
+    50% {
+        border-color: var(--start-color);
+    }
+    
+    75% {
+        border-color: var(--end-color);
+    }
+    
+    100% {
+        border-color: var(--start-color);
+        transform: rotate(var(--rotation)) rotate3d(0, 1, 0, 360deg);
+    }
+}
+
+/*
+.circle.r35 { animation-name: squish35; }
+@keyframes squish35 {
+    50% {
+        transform: rotate(35deg) rotate3d(0, 1, 0, 90deg);
+        border-color: orange;
+    }
+}
+
+.circle.r115 { animation-name: squish115; }
+@keyframes squish115 {
+    50% {
+        transform: rotate(115deg) rotate3d(0, 1, 0, 90deg);
+        border-color: red;
+    }
+}
+*/
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: black;
+}
+
+#animation-container {
+    position: relative;
+    width: min(50vw, 50vh);
+    height: min(50vw, 50vh);
+    border: 1px solid #120E12;
+    border: 1px solid #222;
+    border: none;
+    margin: calc((100vh - min(50vw, 50vh))/2) auto;
+    
+}
+
+.circle-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+
+.circle {
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--start-color);
+    opacity: 0.8;
+    background: transparent;
+    border-radius: 9999px;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    transform: rotate(var(--rotation));
+    transition: opacity 5000ms;
+    animation-name: squish;
+}
