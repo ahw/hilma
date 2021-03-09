@@ -4,7 +4,8 @@
     --start-color: white;
 }
 
-.circle {
+* {
+  box-sizing: border-box;
 }
 
 @keyframes squish {
@@ -33,6 +34,7 @@
 
 body {
     background: black;
+    margin: 0;
 }
 
 @keyframes fade-in-out {
@@ -62,9 +64,9 @@ body {
     border: 1px solid #222;
     border: none;
     margin: calc((100vh - min(80vw, 80vh))/2) auto;
-    animation-name: fade-in-out;
-    animation-duration: 30s;
-    animation-iteration-count: infinite;
+    /* animation-name: fade-in-out; */
+    /* animation-duration: 30s; */
+    /* animation-iteration-count: infinite; */
     
 }
 
