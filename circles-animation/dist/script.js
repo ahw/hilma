@@ -1,5 +1,12 @@
 function getRandomColor() {
-  const colors = ['#EB212E', 'yellow', 'red', 'orange', 'purple'];
+  const colors = ['#EB212E', 'yellow', 'red', 'orange', 'purple', '#F3121A', '#FC428D', '#F5FD6E'];
+  const r = Math.floor(Math.random() * colors.length);
+  // return 'white';
+  return colors[r];
+}
+
+function randomYellow() {
+  const colors = ['gold', 'yellow', '#FED293', '#F6E14A', '#F5FD6E', '#F9FED7'];
   const r = Math.floor(Math.random() * colors.length);
   // return 'white';
   return colors[r];
@@ -27,11 +34,11 @@ function addCircle() {
   div.appendChild(circle);
   document.getElementById('animation-container').appendChild(div);
   setTimeout(() => {
-    circle.style.opacity = 1;
-  }, 10);
+    circle.style.removeProperty('opacity');
+  }, 1000);
 }
 
-const max = 7;
+const max = 10;
 for (let i = 0; i < max; i++) {
   setTimeout(() => {
     addCircle();
